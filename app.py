@@ -34,13 +34,32 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+
 @st.cache_data
 def load_artifacts():
-    """Load model and processed data"""
-    with open(r'C:\code_1\house_pred\models\final_model.pkl', 'rb') as f:
-        artifacts = pickle.load(f)
+    """Load model - cloud compatible paths"""
+    # Try repo paths first
+    model_paths = ['models/final_model.pkl', './models/final_model.pkl']
+    data_paths = ['data/processed/nyc_housing_processed.csv', './data/processed/nyc_housing_processed.csv']
     
-    df_processed = pd.read_csv(r'C:\code_1\house_pred\data\processed\nyc_housing_processed.csv')
+    artifacts = None
+    df_processed = None
+    
+    for model_path in model_paths:
+        try:
+            with open(model_path, 'rb') as f:
+                artifacts = pickle.load(f)
+            st.success(f"✅ Loaded {model_path}")
+            break
+        except:
+            continue
+    
+    for data_path in data_paths:
+        try:
+            df_processed = pd.read_csv(data_path)
+            break
+        except:
+            continue
     
     FEATURE_COLS = ['BEDS_capped', 'BATH_capped', 'log_PROPERTYSQFT', 'LATITUDE', 'LONGITUDE', 
                     'distance_to_center_km', 'price_per_sqft', 'beds_per_bath', 'sqft_per_bed', 
