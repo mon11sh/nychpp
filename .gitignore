@@ -1,0 +1,25 @@
+# Data
+data/raw/*
+data/processed/*
+data/interim/*
+!data/processed/nyc_housing_processed.csv
+
+# Models (save small ones only)
+models/*.pkl
+!models/final_model.pkl
+!models/predict_function.pkl
+
+# Environment
+__pycache__/
+*.pyc
+.env
+house/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
